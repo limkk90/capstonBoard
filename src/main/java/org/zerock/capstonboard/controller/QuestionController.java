@@ -35,6 +35,7 @@ public class QuestionController {
         listRet.put("pagination", pagination);
         listRet.put("boardList", questionDto);
         log.info("asd");
+        log.info("여름방학");
         return listRet;
     }
 
