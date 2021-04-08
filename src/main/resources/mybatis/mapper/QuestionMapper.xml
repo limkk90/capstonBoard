@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.zerock.capstonboard.mapper.QuestionMapper">
+
+
+    <select id="questionListCnt" resultType="int">
+        select count(*) from question_tb
+    </select>
+
+    <select id="getQuestionList" resultType="org.zerock.capstonboard.dto.QuestionDTO">
+        select * from (select row_number() over (order by Q_DTT desc) ronum,
+                              q_cat, q_dtt, q_title, q_content, u_id from QUESTION_TB)
+        where ronum between #{rowStart} and #{rowEnd}
+        order by q_dtt desc
+    </select>
+</mapper>
