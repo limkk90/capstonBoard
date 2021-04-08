@@ -18,32 +18,32 @@ public class QuestionService {
     @Autowired(required = false)
     QuestionMapper questionMapper;
 
-    public int questionListCnt() {
+    public int questionListCnt() {  //총 문의 글 수
         return questionMapper.questionListCnt();
     }
 
-    public List<QuestionDTO> getQuestionList(Criteria criteria) {
+    public List<QuestionDTO> getQuestionList(Criteria criteria) {  //문의 리스트
         return questionMapper.getQuestionList(criteria);
     }
 
 
     public void register(QuestionDTO questionDTO) {
-
+        questionMapper.insertQuestion(questionDTO);
     }
 
 
-    public boardDTO read(String time) {
-        return null;
+    public QuestionDTO read(String time) {
+        return questionMapper.getQuestion(time);
     }
 
 
-    public void update(String title, String content, String time) {
-
+    public void update(QuestionDTO questionDTO) {
+        questionMapper.updateQuestion(questionDTO);
     }
 
 
     public void delete(String time) {
-
+        questionMapper.deleteQuestion(time);
     }
 
 

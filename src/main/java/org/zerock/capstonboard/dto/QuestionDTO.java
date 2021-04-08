@@ -15,5 +15,4 @@ public class QuestionDTO {
     String q_content;
     String q_title;
     String u_id;
-
 }

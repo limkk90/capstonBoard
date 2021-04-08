@@ -2,8 +2,6 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="org.zerock.capstonboard.mapper.QuestionMapper">
-
-
     <select id="questionListCnt" resultType="int">
         select count(*) from question_tb
     </select>
@@ -14,4 +12,21 @@
         where ronum between #{rowStart} and #{rowEnd}
         order by q_dtt desc
     </select>
+
+    <insert id="insertQuestion">
+        insert into QUESTION_TB(Q_DTT ,Q_CAT , Q_TITLE, Q_CONTENT, U_ID)
+        values(systimestamp, #{q_cat} , #{q_title},  #{q_content}, #{u_id})
+    </insert>
+
+    <select id="getQuestion" resultType="org.zerock.capstonboard.dto.QuestionDTO">
+        select * from question_tb where q_dtt = #{time}
+    </select>
+
+    <update id="updateQuestion">
+        update question_tb set q_title =#{q_title} ,q_content= #{q_content}, q_cat=#{q_cat} where q_dtt = #{q_dtt}
+    </update>
+
+    <delete id="deleteQuestion">
+        delete from question_tb where q_dtt = #{time}
+    </delete>
 </mapper>

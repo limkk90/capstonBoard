@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.zerock.capstonboard.dto.QuestionDTO;
+import org.zerock.capstonboard.dto.ReplyDTO;
 import org.zerock.capstonboard.dto.boardDTO;
 import org.zerock.capstonboard.service.Criteria;
 import org.zerock.capstonboard.service.Pagination;
@@ -22,7 +23,6 @@ public class QuestionController {
     @Autowired
     QuestionService questionService;
 
-
     @GetMapping("/list")
     @ResponseBody
     public Map<String, Object> showMain(Criteria criteria, Model model,
@@ -34,9 +34,39 @@ public class QuestionController {
         questionDto = questionService.getQuestionList(criteria);
         listRet.put("pagination", pagination);
         listRet.put("boardList", questionDto);
-        log.info("asd");
-        log.info("여름방학");
         return listRet;
     }
 
+    @PostMapping("/register")
+    @ResponseBody
+    public void register(@RequestBody QuestionDTO questionDTO){
+        log.info("문의레지스터:"+questionDTO);
+        questionService.register(questionDTO);
+    }
+
+    @GetMapping({"/read", "/modify"})
+    @ResponseBody
+    public Map<String, Object> read(@RequestBody QuestionDTO questionDTO, Criteria criteria){
+
+        Map<String, Object> readRet = new HashMap<String, Object>();
+        QuestionDTO dto = questionService.read(questionDTO.getQ_dtt());
+//        List<ReplyDTO> reply = questionService.getReplyList(boardDTO.getJoin());
+        readRet.put("dto", dto);
+        readRet.put("page", criteria);
+//        readRet.put("replyList", reply);
+        return readRet;
+        //http://localhost:7090/board/read?b_dtt=21/04/06%2019:31:17.833&page=1&join=210406193117
+    }
+
+    @PostMapping("/modify")
+    @ResponseBody
+    public void modify(@RequestBody QuestionDTO questionDTO){
+        questionService.update(questionDTO);
+    }
+
+    @PostMapping("/delete")
+    @ResponseBody
+    public void delete(@RequestBody QuestionDTO questionDTO){
+        questionService.delete(questionDTO.getQ_dtt());
+    }
 }
