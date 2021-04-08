@@ -34,6 +34,7 @@ public class QuestionController {
         questionDto = questionService.getQuestionList(criteria);
         listRet.put("pagination", pagination);
         listRet.put("boardList", questionDto);
+        log.info("asd");
         return listRet;
     }
 
