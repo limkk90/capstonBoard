@@ -11,6 +11,7 @@ public class Criteria {
     private int rowEnd; //DB에 검색할 end rownum
     private char ser;
     private String keyWord;
+    private String cat_cd;
 
     public Criteria(){
         this.page = 1;

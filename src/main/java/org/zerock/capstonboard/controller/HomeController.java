@@ -26,22 +26,26 @@ public class HomeController {
 
     @GetMapping("/list")
     @ResponseBody
-    public Map<String, Object> showMain(Criteria criteria, Model model,
+    public Map<String, Object> showMain(@RequestBody Criteria criteria, Model model,
                         @RequestParam(defaultValue = "1") int page){
         List<boardDTO> boardDto = null;
         Map<String, Object> listRet = new HashMap<String, Object>();
         Pagination pagination = new Pagination(mainServiceImpl.boardListCnt(), page, 10);
         log.info("ㅎㅎㅎㅎㅎ:"+pagination);
+        log.info("리스트리스트:"+ criteria);
         criteria.setPage(pagination.getPage());
         if(criteria.getSer() == 'T'){
             boardDto = mainServiceImpl.getBoardListSearchTitle(criteria);
+            log.info("리스트:" + boardDto);
         }
         if(criteria.getSer() == 'W'){
             boardDto = mainServiceImpl.getBoardListSearchWriter(criteria);
         }
         if(criteria.getSer() == 0) {
             boardDto = mainServiceImpl.getBoardList(criteria);
+            log.info("리스트1:" + boardDto);
         }
+
         listRet.put("pagination", pagination);
         listRet.put("boardList", boardDto);
         return listRet;
@@ -60,6 +64,7 @@ public class HomeController {
 
         Map<String, Object> readRet = new HashMap<String, Object>();
         boardDTO dto = mainServiceImpl.read(boardDTO.getB_dtt());
+
         List<ReplyDTO> reply = replyServiceImpl.getReplyList(boardDTO.getJoin());
         readRet.put("dto", dto);
         readRet.put("page", criteria);
